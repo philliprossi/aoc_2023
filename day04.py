@@ -19,7 +19,7 @@ for line in lines:
 print(f"Day 4 Part 1: {sum(score)}") 
 
 
-# fill array with 1s for len(full_cards) 
+
 card_counts = [0] * len(full_cards)
 
 def count_cards(card):
@@ -30,7 +30,8 @@ def count_cards(card):
     else:
         for i in range(card+1, card + 1 + matchs):
             count_cards(i)
-            
+
 for i in range(len(full_cards)):
     count_cards(i)
-sum(card_counts)
+
+print(f"Day 4 Part 2: {sum(card_counts)}") 
