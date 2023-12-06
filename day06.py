@@ -17,26 +17,31 @@ time_distance_pairs = [{'time': t, 'distance': d} for t, d in zip(times, distanc
 
 # b = time 
 # c = distance 
-def get_distinces(b,c):
+def get_distinces(b, c):
+    """
+    Calculate the distances between the roots of a quadratic equation
+    with coefficients b and c.
+
+    Parameters:
+    b (float): Coefficient of x in the quadratic equation.
+    c (float): Constant term in the quadratic equation.
+
+    Returns:
+    list: List of integer values of x that satisfy the inequality.
+    """
     # Coefficients of the quadratic equation
     a = 1
     b = -b
     c = c
-
     # Calculate the discriminant
     D = b**2 - 4*a*c
-
     # If the discriminant is non-negative, the equation has real roots
     if D >= 0:
         x1 = int((-b - np.sqrt(D)) / (2*a))  # Smaller root
         x2 = int((-b + np.sqrt(D)) / (2*a))  # Larger root
         # Find the integer values of x that satisfy the inequality
         x_values = [x for x in range(x1, x2+1) if a*x**2 + b*x + c < 0]
-        # Find the corresponding values of D
-        D_values = [7*x - x**2 for x in x_values]
-    else:
-        pass
-
+    
     return x_values
 
 record = 1 
