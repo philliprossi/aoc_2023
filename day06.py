@@ -4,16 +4,9 @@ with open('inputs/day06.txt') as f:
     lines = f.readlines()
     lines = [line.strip() for line in lines]
 
-
 times = list(map(int, lines[0].split()[1:]))
 distances = list(map(int, lines[1].split()[1:]))
 time_distance_pairs = [{'time': t, 'distance': d} for t, d in zip(times, distances)]
-
-"""
-[{'time': 7, 'distance': 9},
- {'time': 15, 'distance': 40},
- {'time': 30, 'distance': 200}]
-"""
 
 # b = time 
 # c = distance 
@@ -41,7 +34,6 @@ def get_distinces(b, c):
         x2 = int((-b + np.sqrt(D)) / (2*a))  # Larger root
         # Find the integer values of x that satisfy the inequality
         x_values = [x for x in range(x1, x2+1) if a*x**2 + b*x + c < 0]
-    
     return x_values
 
 record = 1 
@@ -49,7 +41,6 @@ for run in time_distance_pairs:
     record =  record * len(get_distinces(run['time'], run['distance']))
 
 print(f"Day 6 Part 1 - {record}")
-
 
 print(f"Day 6 Part 1 - {len(get_distinces(60808676,601116315591300))}")
 
