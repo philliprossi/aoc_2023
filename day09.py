@@ -1,54 +1,60 @@
-import time
-from typing import List
-from dataclasses import dataclass
-
 
 with open('inputs/day09.txt') as f:
-    data = f.readlines()
-data = [[int(d) for d in line.strip().split(" ")] for line in data]
+    lines = f.readlines()
+    lines = [line.strip().split() for line in lines]
+    lines = [[int(c) for c in line] for line in lines]
 
 
-@dataclass
-class History:
-    history: List[int]
+def build_matrix(line):
+    all_rows = []
+    all_rows.append(line)
+    while True: 
+        new_line = []
+        for x in range(len(line)-1):
+            new_line.append(line[x+1] - line[x])
+        all_rows.append(new_line)
 
-    def find_next_value(self, series: List[int]) -> int:
-        result = self._calculate_result(series)
-        if all(r==0 for r in result):
-            return series[-1]
-        return series[-1] + self.find_next_value(result)
+        #if every value in new_line == 0
+        if all(x == 0 for x in new_line):
+            break
+        else:
+            line = new_line
+    return all_rows
 
-    def find_previous_value(self, series: List[int]) -> int:
-        result = self._calculate_result(series)
-        if all(r==0 for r in result):
-            return series[0]
-        return series[0] - self.find_previous_value(result)
+def add_score(all_rows):
+    previous_value = 0
+    for row in all_rows[::-1]:
+        row.append(row[-1] + previous_value)
+        previous_value = row[-1]
+    return all_rows
 
-    @staticmethod
-    def _calculate_result(series: List[int]) -> List[int]:
-        result = []
-        for idx, val in enumerate(series):
-            if idx + 1 >= len(series):
-                break
-            result.append(series[idx + 1] - val)
-        return result
+def final_score(all_rows):
+    return all_rows[0][-1]
 
+all_scores = []
+for line in lines:
+    all_rows = build_matrix(line)
+    add_score(all_rows)
+    final_score_num = final_score(all_rows)
+    all_scores.append(final_score_num)
 
-hist = [History(d) for d in data]
+print(sum(all_scores))
 
-solution = 0
-start = time.time()
-for h in hist:
-    solution += h.find_next_value(h.history)
-end = time.time()
-print(f"Solution 1: {solution}")
-print(f"Solution 1 took {end-start}s")
+def add_score_start(all_rows):
+    previous_value = 0
+    for row in all_rows[::-1]:
+        row.insert(0, row[0] - previous_value)
+        previous_value = row[0]
+    return all_rows
 
+def final_score_reverse(all_rows):
+    return all_rows[0][0]
 
-solution = 0
-start = time.time()
-for h in hist:
-    solution += h.find_previous_value(h.history)
-end = time.time()
-print(f"Solution 2: {solution}")
-print(f"Solution 2 took {end-start}s")
+all_scores_reverse = []
+for line in lines:
+    all_rows_reverse = build_matrix(line)
+    add_score_start(all_rows_reverse)
+    final_score_num = final_score_reverse(all_rows_reverse)
+    all_scores_reverse.append(final_score_num)
+
+print(sum(all_scores_reverse))
