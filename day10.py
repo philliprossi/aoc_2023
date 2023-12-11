@@ -37,13 +37,13 @@ for row in lines:
     row_num += 1 
 
 previous_cell  = start_location # (2,0) (72,119)
-current_cell = (71,119) #(1,4)  #(2, 1)
+current_cell = (71,119) #(71,119) #(1,4)  #(2, 1)
 
 step_count = 1
 loop_coords = [start_location]
 while current_cell != start_location:
     loop_coords.append(current_cell)
-    loop_coords.append(( (current_cell[0] + previous_cell[0])/2, (current_cell[1]+ previous_cell[1])/2 ))
+    #loop_coords.append(( (current_cell[0] + previous_cell[0])/2, (current_cell[1]+ previous_cell[1])/2 ))
 
 
     current_cell_val = map[current_cell]
@@ -68,67 +68,18 @@ print(step_count/2) # <<--- PART 1
 max_rows = len(lines) - 1
 max_cols = len(lines[0]) - 1
 
-possible_tiles = [x for x in all_cells if x not in loop_coords]
 
-#see if possible tile has path off grid by .5 steps
-tiles_true = []
-tiles_false = [] 
- 
-def check_tile_surroundings(tile, seen_tiles):
-    seen_tiles.append(tile)
-
-    if tile in tiles_true:
-        return True
-    
-    if tile in tiles_false:
-        return False
-
-    #if tile is on edge return 'outside'
-    if tile[0] == 0 or tile[0] == max_rows or tile[1] == 0 or tile[1] == max_cols:
-        tiles_true.append(tile)
-        return True
-    
-    if tile in loop_coords:
-        tiles_false.append(tile)
-        return False
-    
-    if tile[0] != int(tile[0]) and tile[1] != int(tile[1]):
-        tiles_false.append(tile)
-        return False
-    
-    possible_options = [
-        (tile[0] - .5   , tile[1]),
-        (tile[0] + .5   , tile[1]),
-        (tile[0]        , tile[1] -.5),
-        (tile[0]        , tile[1] +.5),
-    ]
-
-    returns = [] 
-    for option in possible_options:
-        if option not in seen_tiles:
-            returns.append(check_tile_surroundings(option, seen_tiles))
-
-    if any(returns):
-        return True
-    else:
-        return False
-
-tile_count = 0 
-for tile in possible_tiles:
-
-    if tile in tiles_true:
-        continue
-
-    seen_tiles = []
-    returns = check_tile_surroundings(tile, seen_tiles)
-
-    if not returns:
-        tiles_false.append(seen_tiles)
-        tile_count += 1
-    else:
-        tiles_true.append(seen_tiles)
-
-    if tile_count>0:
-        print(tile_count) 
+north_facing_pipe = ['|','L','J', 'S']
+north_count = 0
+tile_count = 0
+for row in range(len(lines)):
+    north_count = 0
+    for col in range(len(lines[0])):
+        if (row, col) in loop_coords:
+            if map[(row, col)] in north_facing_pipe:
+                north_count+=1
+        else:
+            if north_count % 2 == 1:
+                tile_count += 1
 
 print(tile_count)
