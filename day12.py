@@ -82,30 +82,6 @@ def get_only_in_order_subsets(final_comb_subset):
     return final_final_comb_subset
 
 
-# total = 0
-# for line in lines:
-#     print(line)
-#     spring_options = {}
-#     spring_options = generate_spring_options(line)
-
-#     combinations = get_combinations(spring_options)
-
-#     comb_subset = check_non_overlap(combinations)
-
-#     spring_locations = find_springs(line.split(' ')[0])
-
-#     final_comb_subset =  check_spings_are_covered(comb_subset, spring_locations)
-
-#     final_final_comb_subset = get_only_in_order_subsets(final_comb_subset)
-
-#     print(len(final_final_comb_subset))
-
-#     total += len(final_final_comb_subset)
-
-# print(total)
-
-
-
 from multiprocessing import Pool
 import pprint
 
@@ -113,13 +89,7 @@ def process_line(line):
     print(line)
     spring_options = {}
     spring_options = generate_spring_options(line)
-
-    pprint.pprint(spring_options)
-
     combinations = get_combinations(spring_options)
-
-    print(len(combinations))
-
     comb_subset = check_non_overlap(combinations)
     spring_locations = find_springs(line.split(' ')[0])
     final_comb_subset =  check_spings_are_covered(comb_subset, spring_locations)
