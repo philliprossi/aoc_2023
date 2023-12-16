@@ -140,13 +140,6 @@ class Mirror:
             print("Error: invalid direction")
             return None
 
-
-"""defin class for spliter that splits the beam
-If the beam encounters the pointy end of a splitter (| or -), the beam passes through the splitter as if the splitter were empty space. For instance, a rightward-moving beam that encounters a - splitter would continue in the same direction.
-If the beam encounters the flat side of a splitter (| or -), the beam is split into two beams going in each of the two directions the splitter's pointy ends are pointing. For instance, a rightward-moving beam that encounters a | splitter would split into two beams: one that continues upward from the splitter's column and one that continues downward from the splitter's column.
-"""
-
-
 class Splitter:
     def __init__(self, x, y, shape="|"):
         self.x = x
