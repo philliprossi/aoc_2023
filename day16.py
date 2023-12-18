@@ -1,3 +1,5 @@
+from functools import cache
+
 with open("inputs/day16.txt") as f:
     lines = f.readlines()
     lines = [line.strip() for line in lines]
