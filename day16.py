@@ -142,6 +142,7 @@ class Mirror:
             print("Error: invalid direction")
             return None
 
+
 class Splitter:
     def __init__(self, x, y, shape="|"):
         self.x = x

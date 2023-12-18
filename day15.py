@@ -1,8 +1,8 @@
-with open('inputs/day15.txt') as f:
+with open("inputs/day15.txt") as f:
     lines = f.readlines()
     lines = [line.strip() for line in lines]
 
-codes = lines[0].split(',')
+codes = lines[0].split(",")
 
 hashes = []
 for code in codes:
@@ -15,16 +15,14 @@ for code in codes:
 print(sum(hashes))
 
 
-
-
 boxes = [[] for _ in range(256)]
 for code in codes:
     focal_length = None
-    if '=' in code:
-        lense = code.split('=')[0]
-        focal_length = int(code.split('=')[1])
-    elif '-' in code:
-        lense = code.split('-')[0]
+    if "=" in code:
+        lense = code.split("=")[0]
+        focal_length = int(code.split("=")[1])
+    elif "-" in code:
+        lense = code.split("-")[0]
 
     hash = 0
     for c in lense:
@@ -42,15 +40,14 @@ for code in codes:
             boxes[hash].append([lense, focal_length])
     else:
         x = 0
-        found=False
+        found = False
         for box_lense in boxes[hash]:
             if box_lense[0] == lense:
-                found=True
+                found = True
                 break
             x += 1
         if found:
             boxes[hash].pop(x)
-
 
 
 score = 0

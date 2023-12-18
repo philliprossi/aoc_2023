@@ -1,4 +1,3 @@
-
 import heapq
 
 with open("inputs/day17.txt") as f:
@@ -35,10 +34,18 @@ def get_neighbors(position, direction, straight_moves, grid):
             neighbors.append((new_position, new_direction, new_straight_moves))
     return neighbors
 
+
 def dijkstra(grid, start, end):
     queue = []
-    for direction in [(0, 1), (1, 0), (0, -1), (-1, 0)]:  # Initialize all possible directions from start
-        heapq.heappush(queue, (grid[start[0]][start[1]], start, direction, 1, [start]))  # heat loss, position, direction, straight count, path
+    for direction in [
+        (0, 1),
+        (1, 0),
+        (0, -1),
+        (-1, 0),
+    ]:  # Initialize all possible directions from start
+        heapq.heappush(
+            queue, (grid[start[0]][start[1]], start, direction, 1, [start])
+        )  # heat loss, position, direction, straight count, path
 
     visited = set()
 
@@ -51,10 +58,21 @@ def dijkstra(grid, start, end):
             continue
         visited.add((position, direction, straight_count))
 
-        for new_position, new_direction, new_straight_moves in get_neighbors(position, direction, straight_count, grid):
+        for new_position, new_direction, new_straight_moves in get_neighbors(
+            position, direction, straight_count, grid
+        ):
             new_heat_loss = heat_loss + grid[new_position[0]][new_position[1]]
             new_path = path + [position]
-            heapq.heappush(queue, (new_heat_loss, new_position, new_direction, new_straight_moves, new_path))
+            heapq.heappush(
+                queue,
+                (
+                    new_heat_loss,
+                    new_position,
+                    new_direction,
+                    new_straight_moves,
+                    new_path,
+                ),
+            )
 
     return None, None
 
@@ -78,5 +96,6 @@ def print_grid_with_path(grid, path):
             else:
                 print(c, end="")
         print()
+
 
 print_grid_with_path(grid, path)

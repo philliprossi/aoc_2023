@@ -1,4 +1,4 @@
-with open('inputs/day13.txt') as f:
+with open("inputs/day13.txt") as f:
     lines = f.readlines()
     lines = [line.strip() for line in lines]
 
@@ -6,9 +6,10 @@ with open('inputs/day13.txt') as f:
 def find_identical_columns(matrix):
     column_indexes = []
     for i in range(len(matrix[0]) - 1):
-        if all(row[i] == row[i+1] for row in matrix):
+        if all(row[i] == row[i + 1] for row in matrix):
             column_indexes.append(i)
     return column_indexes
+
 
 def do_columns_match(matrix, index1, index2):
     if index1 < 0 or index2 >= len(matrix[0]):
@@ -18,6 +19,7 @@ def do_columns_match(matrix, index1, index2):
         if row[index1] != row[index2]:
             return False
     return True
+
 
 def do_rows_match(matrix, index1, index2):
     if index1 < 0 or index2 >= len(matrix):
@@ -38,7 +40,7 @@ def find_identical_rows(matrix):
 
 def find_all_mirrored_columns(matrix, index):
     current_index = index
-    index_offset = 1 
+    index_offset = 1
     matching_index = []
     last_range = []
     while True:
@@ -49,7 +51,7 @@ def find_all_mirrored_columns(matrix, index):
             break
 
         current_index -= 1
-        index_offset =  index_offset + 2
+        index_offset = index_offset + 2
 
         if current_index < 0:
             break
@@ -58,20 +60,20 @@ def find_all_mirrored_columns(matrix, index):
 
     return last_range
 
+
 def find_all_mirrored_rows(matrix, index):
     current_index = index
-    index_offset = 1 
+    index_offset = 1
     matching_index = []
     last_range = []
     while True:
-
         if do_rows_match(matrix, current_index, current_index + index_offset):
             matching_index.append([current_index, current_index + index_offset])
             last_range = [current_index, current_index + index_offset]
         else:
             break
         current_index -= 1
-        index_offset =  index_offset + 2
+        index_offset = index_offset + 2
 
         if current_index < 0:
             break
@@ -82,9 +84,9 @@ def find_all_mirrored_rows(matrix, index):
 
 
 def process_input(file_path):
-    with open(file_path, 'r') as file:
-        matrices = file.read().strip().split('\n\n')
-    matrices = [matrix.split('\n') for matrix in matrices]
+    with open(file_path, "r") as file:
+        matrices = file.read().strip().split("\n\n")
+    matrices = [matrix.split("\n") for matrix in matrices]
     return matrices
 
 
@@ -94,7 +96,7 @@ def does_range_touch_edge_of_matrix(range, start, end):
     return False
 
 
-matrices = process_input('inputs/day13.txt')
+matrices = process_input("inputs/day13.txt")
 total_score = 0
 for i, matrix in enumerate(matrices):
     print(f"Matrix {i + 1}:---------------------------------------------------")
@@ -115,23 +117,22 @@ for i, matrix in enumerate(matrices):
         range_rows.append(find_all_mirrored_rows(matrix, match))
 
     for range_mirror in range_columns:
-        if does_range_touch_edge_of_matrix(range_mirror, 0, len(matrix[0]) -1 ):
+        if does_range_touch_edge_of_matrix(range_mirror, 0, len(matrix[0]) - 1):
             print("Column range touches edge of matrix " + str(range_mirror))
             final_range = range_mirror
-            score = (((final_range[1] - final_range[0] + 1)/2) + final_range[0])
-            print(f"Score: {score}")
-            total_score += score
-            break
-    
-    for range_mirror in range_rows:
-        if does_range_touch_edge_of_matrix(range_mirror, 0, len(matrix) -1 ):
-            print("ROW range touches edge of matrix : " + str(range_mirror))
-            final_range = range_mirror
-            score =  ((((final_range[1] - final_range[0] + 1)/2) + final_range[0]))*100
+            score = ((final_range[1] - final_range[0] + 1) / 2) + final_range[0]
             print(f"Score: {score}")
             total_score += score
             break
 
+    for range_mirror in range_rows:
+        if does_range_touch_edge_of_matrix(range_mirror, 0, len(matrix) - 1):
+            print("ROW range touches edge of matrix : " + str(range_mirror))
+            final_range = range_mirror
+            score = (((final_range[1] - final_range[0] + 1) / 2) + final_range[0]) * 100
+            print(f"Score: {score}")
+            total_score += score
+            break
 
     print(f"Score: {score}")
 
@@ -139,4 +140,3 @@ for i, matrix in enumerate(matrices):
 
 
 total_score
-
