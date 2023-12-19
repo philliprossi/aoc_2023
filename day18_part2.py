@@ -6,14 +6,10 @@ directions = {0: "R", 1: "D", 2: "L", 3: "U"}
 
 
 def parse_input(lines):
-    parsed = []
-    for line in lines:
-        direction = directions[int(line.split()[2][7])]
-        hex_string = line.split()[2][2:7]
-        distance = int(hex_string, 16)
-        parsed.append((direction, distance))
-    return parsed
-
+    return [
+        (directions[int(line.split()[2][7])], int(line.split()[2][2:7], 16))
+        for line in lines
+    ]
 
 input = parse_input(lines)
 

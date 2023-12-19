@@ -48,37 +48,15 @@ for i in range(min_x - 1, max_x + 2):
 
 
 start = (1, 1)
-seen = []
+seen = set()
 to_check = [start]
-while len(to_check) > 0:
+while to_check:
     current = to_check.pop()
-    seen.append(current)
-    x = current[0]
-    y = current[1]
-    if (
-        (x, y + 1) not in seen
-        and (x, y + 1) not in to_check
-        and (x, y + 1) not in lagoon
-    ):
-        to_check.append((x, y + 1))
-    if (
-        (x, y - 1) not in seen
-        and (x, y - 1) not in to_check
-        and (x, y - 1) not in lagoon
-    ):
-        to_check.append((x, y - 1))
-    if (
-        (x + 1, y) not in seen
-        and (x + 1, y) not in to_check
-        and (x + 1, y) not in lagoon
-    ):
-        to_check.append((x + 1, y))
-    if (
-        (x - 1, y) not in seen
-        and (x - 1, y) not in to_check
-        and (x - 1, y) not in lagoon
-    ):
-        to_check.append((x - 1, y))
+    seen.add(current)
+    x, y = current
+    for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+        next_pos = (x + dx, y + dy)
+        if next_pos not in seen and next_pos not in to_check and next_pos not in lagoon:
+            to_check.append(next_pos)
 
-
-print(len(seen) + len(lagoon.keys()))
+print(len(seen) + len(lagoon))
